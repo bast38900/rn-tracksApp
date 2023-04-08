@@ -1,14 +1,21 @@
 /*
     Screen for signing up to application
 */
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Input, Button } from "react-native-elements";
 import Spacer from "../components/Spacer";
 
+//Import context to access data fro server
+import { Context as AuthContext } from "../context/AuthContext";
+
 const SignupScreen = ({ navigation }) => {
+  // Get or set state from and to AuthContext
+  const { state, signup } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  console.log(state);
 
   return (
     <View style={styles.container}>
@@ -30,9 +37,10 @@ const SignupScreen = ({ navigation }) => {
         autoCapitalize="none"
         autoCorrect={false}
         secureTextEntry
+        errorMessage={state.errorMessage ? state.errorMessage : null}
       />
       <Spacer>
-        <Button title="Sign up" />
+        <Button title="Sign up" onPress={() => signup({ email, password })} />
       </Spacer>
     </View>
   );
@@ -49,6 +57,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginBottom: 200,
+  },
+  errorMessage: {
+    fontSize: 18,
+    color: "red",
+    marginLeft: 15,
+    marginTop: 15,
   },
 });
 
