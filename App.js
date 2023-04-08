@@ -7,12 +7,15 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 // import screens from scr folder
-import AccountScreen from "./src/AccountScreen";
-import SigninScreen from "./src/SigninScreen";
-import SignupScreen from "./src/SignupScreen";
-import TrackCreateScreen from "./src/TrackCreateScreen";
-import TrackDetailScreen from "./src/TrackDetailScreen";
-import TrackListScreen from "./src/TrackListScreen";
+import AccountScreen from "./src/screens/AccountScreen";
+import SigninScreen from "./src/screens/SigninScreen";
+import SignupScreen from "./src/screens/SignupScreen";
+import TrackCreateScreen from "./src/screens/TrackCreateScreen";
+import TrackDetailScreen from "./src/screens/TrackDetailScreen";
+import TrackListScreen from "./src/screens/TrackListScreen";
+
+// Importing providers to pass data throug the app
+import { Provider as AuthProvider } from "./src/context/AuthContext";
 
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
@@ -29,4 +32,13 @@ const switchNavigator = createSwitchNavigator({
   }),
 });
 
-export default createAppContainer(switchNavigator);
+const App = createAppContainer(switchNavigator);
+
+// Wrap App in AuthProvider, for navigation throughout the app.
+export default () => {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+};
