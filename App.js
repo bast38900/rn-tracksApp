@@ -17,6 +17,9 @@ import TrackListScreen from "./src/screens/TrackListScreen";
 // Importing providers to pass data throug the app
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 
+// Importing navigation function
+import { setNavigator } from "./src/navigationRef";
+
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
     Signup: SignupScreen,
@@ -38,7 +41,11 @@ const App = createAppContainer(switchNavigator);
 export default () => {
   return (
     <AuthProvider>
-      <App />
+      <App
+        ref={(navigator) => {
+          setNavigator(navigator);
+        }}
+      />
     </AuthProvider>
   );
 };
