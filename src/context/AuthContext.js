@@ -7,7 +7,10 @@ import { navigate } from "../navigationRef";
 //Adding local storage to store token on device
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Importing context creation
 import createDataContext from "./createDataContext";
+
+//importing api connection
 import trackerApi from "../api/tracker";
 
 // Adding Reducer to change state
@@ -19,6 +22,8 @@ const authReducer = (state, action) => {
       return { errorMessage: "", token: action.payload };
     case "clear_error_message":
       return { ...state, errorMessage: "" };
+    case "signout":
+      return { token: null, errorMessage: "" };
     default:
       return state;
   }
@@ -53,7 +58,7 @@ const signup =
     } catch (err) {
       dispatch({
         type: "add_error",
-        payload: "Something went wrong with sign up",
+        payload: "Something went wrong with sign up!",
       });
     }
   };
@@ -71,14 +76,16 @@ const signin =
     } catch (error) {
       dispatch({
         type: "add_error",
-        payload: "Username or password is incorrect",
+        payload: "Username or password is incorrect!",
       });
     }
   };
 
-// Function to get data from the sever, and change state
-const signout = (dispatch) => {
-  return ({ email, password }) => {};
+// Function to logout from the sever, and change state
+const signout = (dispatch) => async () => {
+  await AsyncStorage.removeItem("token");
+  dispatch({ type: "signout" });
+  navigate("loginFlow");
 };
 
 // Exporting createDataContext function.
