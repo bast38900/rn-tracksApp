@@ -1,10 +1,12 @@
 /*
     Screen for administration off user account
 */
-import { SafeAreaView } from "react-navigation";
 import React, { useContext } from "react";
 import { StyleSheet, Text } from "react-native";
 import { Button } from "react-native-elements";
+
+// Import this hook, to pplave heading under the edge of the screen
+import { SafeAreaView } from "react-navigation";
 
 //Import spacer component for styling
 import Spacer from "../components/Spacer";
@@ -28,7 +30,7 @@ const AccountScreen = () => {
 
 const styles = StyleSheet.create({
   viewStyle: {
-    marginTop: 100,
+    marginTop: 50,
   },
   textStyle: {
     fontSize: 48,
