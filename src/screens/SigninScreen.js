@@ -1,27 +1,53 @@
 /*
     Screen for login in to application
 */
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
-import { Text, Input, Button } from "react-native-elements";
-import Spacer from "../components/Spacer";
 
-const SigninScreen = () => {
+//Import context to access data fro server
+import { Context as AuthContext } from "../context/AuthContext";
+
+//Import authentication form and navigation link
+import AuthForm from "../components/AuthForm";
+import NavLink from "../components/NavLink";
+
+// Import navigation events to handle callback functions
+import { NavigationEvents } from "react-navigation";
+
+const SigninScreen = ({ navigation }) => {
+  // Get or set state from and to AuthContext
+  const { state, signin, clearErrorMessage } = useContext(AuthContext);
+
   return (
-    <>
-      <Spacer>
-        <Text h3>Sign in to TrackerApp</Text>
-      </Spacer>
-      <Input label="Email" />
-      <Spacer />
-      <Input label="Password" />
-      <Spacer>
-        <Button title="Sign in" />
-      </Spacer>
-    </>
+    <View style={styles.container}>
+      <NavigationEvents onWillBlur={clearErrorMessage} />
+      <AuthForm
+        headerText="Sign in to your account"
+        errorMessage={state.errorMessage}
+        submitButtonText="Sign in"
+        onSubmit={signin}
+      />
+      <NavLink
+        text="Don't have an account? Sign up instead!"
+        routeName="Signup"
+      />
+    </View>
   );
 };
 
-const styles = StyleSheet.create({});
+// Removing the top header
+SigninScreen.navigationOptions = () => {
+  return {
+    headerShown: false,
+  };
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 200,
+  },
+});
 
 export default SigninScreen;
