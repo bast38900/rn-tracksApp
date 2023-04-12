@@ -1,54 +1,28 @@
 /*
     Screen for creating a new track
 */
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
 
-// Import this hook, to pplave heading under the edge of the screen
-import { SafeAreaView } from "react-navigation";
+// Import this hook, to plave heading under the edge of the screen, and track navigation
+import { SafeAreaView, withNavigationFocus } from "react-navigation";
 
 // Get maps component
 import Map from "../components/Map";
 
-// Get permission to track location
-import {
-  requestForegroundPermissionsAsync,
-  watchPositionAsync,
-  Accuracy,
-} from "expo-location";
-
 // Import fake location
 import "../_mockLocation";
 
-const TrackCreateScreen = () => {
-  const [err, setErr] = useState(null);
+// Import useLocation to get current location
+import useLocation from "../hooks/useLocation";
 
-  // Helper function to get permission to track location, when entering the screen
-  const startWatching = async () => {
-    try {
-      const { granted } = await requestForegroundPermissionsAsync();
-      if (!granted) {
-        throw new Error("Location permission not granted");
-      }
-      await watchPositionAsync(
-        {
-          accuracy: Accuracy.BestForNavigation,
-          timeInterval: 1000,
-          distanceInterval: 10,
-        },
-        (location) => {
-          console.log(location);
-        }
-      );
-    } catch (e) {
-      setErr(e);
-    }
-  };
+//Import context to access data from server
+import { Context as LocationContext } from "../context/LocationContext";
 
-  useEffect(() => {
-    startWatching();
-  }, []);
+const TrackCreateScreen = ({ isFocused }) => {
+  const { addLocation } = useContext(LocationContext);
+  const [err] = useLocation(isFocused, addLocation);
 
   return (
     <SafeAreaView style={styles.viewStyle} forceInset={{ top: "always" }}>
@@ -73,4 +47,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TrackCreateScreen;
+export default withNavigationFocus(TrackCreateScreen);

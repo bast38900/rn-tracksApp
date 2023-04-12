@@ -1,3 +1,7 @@
+/*
+    File to fake location in expo app
+*/
+
 import * as Location from "expo-location";
 
 // Function to set the size parameter
@@ -6,7 +10,7 @@ const tenMetersWithDegrees = 0.0001;
 // Function to set the "fake" location
 const getLocation = (increment) => {
   return {
-    timeStamp: 10000000,
+    timestamp: 10000000,
     coords: {
       speed: 0,
       heading: 0,
@@ -21,7 +25,7 @@ const getLocation = (increment) => {
 
 let counter = 0;
 setInterval(() => {
-  Location.EventEmitter.emit("Expo.LocationChanged", {
+  Location.EventEmitter.emit("Expo.locationChanged", {
     watchId: Location._getCurrentWatchId(),
     location: getLocation(counter),
   });

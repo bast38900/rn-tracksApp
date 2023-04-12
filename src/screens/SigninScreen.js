@@ -4,7 +4,7 @@
 import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 
-//Import context to access data fro server
+//Import context to access data from server
 import { Context as AuthContext } from "../context/AuthContext";
 
 //Import authentication form and navigation link
