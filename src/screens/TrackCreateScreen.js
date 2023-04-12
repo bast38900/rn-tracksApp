@@ -20,6 +20,9 @@ import useLocation from "../hooks/useLocation";
 //Import context to access data from server
 import { Context as LocationContext } from "../context/LocationContext";
 
+// Inport Trackform
+import TrackForm from "../components/TrackForm";
+
 const TrackCreateScreen = ({ isFocused }) => {
   const { addLocation } = useContext(LocationContext);
   const [err] = useLocation(isFocused, addLocation);
@@ -33,6 +36,7 @@ const TrackCreateScreen = ({ isFocused }) => {
           *Please enable location services
         </Text>
       ) : null}
+      <TrackForm submitButtonText="Start Recording" />
     </SafeAreaView>
   );
 };
