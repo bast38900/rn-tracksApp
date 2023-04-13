@@ -18,6 +18,7 @@ import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 // Importing providers to pass data throug the app
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { Provider as LocationProvider } from "./src/context/LocationContext";
+import { Provider as TrackProvider } from "./src/context/TrackContext";
 
 // Importing navigation function
 import { setNavigator } from "./src/navigationRef";
@@ -43,14 +44,16 @@ const App = createAppContainer(switchNavigator);
 // Wrap App in AuthProvider, for navigation throughout the app.
 export default () => {
   return (
-    <LocationProvider>
-      <AuthProvider>
-        <App
-          ref={(navigator) => {
-            setNavigator(navigator);
-          }}
-        />
-      </AuthProvider>
-    </LocationProvider>
+    <TrackProvider>
+      <LocationProvider>
+        <AuthProvider>
+          <App
+            ref={(navigator) => {
+              setNavigator(navigator);
+            }}
+          />
+        </AuthProvider>
+      </LocationProvider>
+    </TrackProvider>
   );
 };

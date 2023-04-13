@@ -11,6 +11,9 @@ import Spacer from "./Spacer";
 //Import context to access data from server
 import { Context as LocationContext } from "../context/LocationContext";
 
+// Import hook to save tracks
+import useSaveTrack from "../hooks/useSaveTrack";
+
 const TrackForm = () => {
   const {
     state: { name, recording, locations },
@@ -18,23 +21,24 @@ const TrackForm = () => {
     stopRecording,
     changeName,
   } = useContext(LocationContext);
-
-  console.log(locations.length);
+  const [saveTrack] = useSaveTrack();
 
   return (
     <>
+      <Spacer />
+      <Input value={name} onChangeText={changeName} placeholder="Enter name" />
       <Spacer>
-        <Input
-          value={name}
-          onChangeText={changeName}
-          placeholder="Enter name"
-        />
+        {recording ? (
+          <Button title="Stop" onPress={stopRecording} />
+        ) : (
+          <Button title="Start Recording" onPress={startRecording} />
+        )}
       </Spacer>
-      {recording ? (
-        <Button title="Stop" onPress={stopRecording} />
-      ) : (
-        <Button title="Start Recording" onPress={startRecording} />
-      )}
+      <Spacer>
+        {!recording && locations.length ? (
+          <Button title="Save Recording" onPress={saveTrack} />
+        ) : null}
+      </Spacer>
     </>
   );
 };
