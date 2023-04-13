@@ -4,6 +4,7 @@
 import React, { useContext, useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
+import { FontAwesome } from "@expo/vector-icons";
 
 // Import this hook, to plave heading under the edge of the screen, and track navigation
 import { SafeAreaView, withNavigationFocus } from "react-navigation";
@@ -48,6 +49,11 @@ const TrackCreateScreen = ({ isFocused }) => {
       <TrackForm />
     </SafeAreaView>
   );
+};
+
+TrackCreateScreen.navigationOptions = {
+  title: "Add Track",
+  tabBarIcon: <FontAwesome name="plus" size={20} />,
 };
 
 const styles = StyleSheet.create({

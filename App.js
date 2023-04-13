@@ -23,17 +23,28 @@ import { Provider as TrackProvider } from "./src/context/TrackContext";
 // Importing navigation function
 import { setNavigator } from "./src/navigationRef";
 
+// Import Icons for buttun bar
+import { FontAwesome } from "@expo/vector-icons";
+
+const trackListFlow = createStackNavigator({
+  TrackList: TrackListScreen,
+  TrackDetail: TrackDetailScreen,
+});
+
+trackListFlow.navigationOptions = {
+  title: "Tracks",
+  tabBarIcon: <FontAwesome name="th-list" size={20} />,
+};
+
+// Create Navigation
 const switchNavigator = createSwitchNavigator({
   ResolveAuth: ResolveAuthScreen,
   loginFlow: createStackNavigator({
-    Signin: SigninScreen,
     Signup: SignupScreen,
+    Signin: SigninScreen,
   }),
   mainFlow: createMaterialBottomTabNavigator({
-    trackListFlow: createStackNavigator({
-      TrackList: TrackListScreen,
-      TrackDetail: TrackDetailScreen,
-    }),
+    trackListFlow,
     TrackCreate: TrackCreateScreen,
     Account: AccountScreen,
   }),
