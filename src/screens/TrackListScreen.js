@@ -2,7 +2,13 @@
     Screen for listing all tracks
 */
 import React, { useContext } from "react";
-import { StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  FlatList,
+  Item,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { ListItem } from "react-native-elements";
 
 // Import navigation events to handle callback functions

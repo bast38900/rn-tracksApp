@@ -28,9 +28,6 @@ const createTrack = (dispatch) => async (name, locations) => {
   await trackerApi.post("/tracks", { name, locations });
 };
 
-// Action function to delete a track
-const deleteTrack = (dispatch) => () => {};
-
 export const { Provider, Context } = createDataContext(
   trackReducer,
   { fetchTracks, createTrack },

@@ -7,7 +7,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const instance = axios.create({
-  baseURL: "https://c216-5-103-118-250.eu.ngrok.io",
+  baseURL: "https://e8f9-5-186-75-38.eu.ngrok.io",
 });
 
 // Do this before exporting, attacth token to request if its exists
