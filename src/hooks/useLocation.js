@@ -13,37 +13,48 @@ import {
 
 export default (shouldTrack, callback) => {
   const [err, setErr] = useState(null);
-  const [subscriber, setSubscriber] = useState(null);
 
-  // Helper function to get permission to track location, when entering the screen
-  const startWatching = async () => {
-    try {
-      const { granted } = await requestForegroundPermissionsAsync();
-      if (!granted) {
-        throw new Error("Location permission not granted");
-      }
-      const sub = await watchPositionAsync(
-        {
-          accuracy: Accuracy.BestForNavigation,
-          timeInterval: 1000,
-          distanceInterval: 10,
-        },
-        callback
-      );
-      setSubscriber(sub);
-    } catch (e) {
-      setErr(e);
-    }
-  };
-
+  // Start Tracking when navigation to "Create a Track" screen"
+  // ShouldTrack = isFocused from "TrackCreateScreen"
   useEffect(() => {
+    let subscriber;
+
+    // Helper function to get permission to track location, when entering the screen
+    const startWatching = async () => {
+      try {
+        const { granted } = await requestForegroundPermissionsAsync();
+        if (!granted) {
+          throw new Error("Location permission not granted");
+        }
+        subscriber = await watchPositionAsync(
+          {
+            accuracy: Accuracy.BestForNavigation,
+            timeInterval: 1000,
+            distanceInterval: 10,
+          },
+          // Callback is addLocation function from TrackCreateScreen
+          callback
+        );
+      } catch (e) {
+        setErr(e);
+      }
+    };
+
     if (shouldTrack) {
       startWatching();
     } else {
-      subscriber.remove();
-      setSubscriber(null);
+      if (subscriber) {
+        subscriber.remove();
+      }
+      subscriber = null;
     }
-  }, [shouldTrack]);
+
+    return () => {
+      if (subscriber) {
+        subscriber.remove();
+      }
+    };
+  }, [shouldTrack, callback]);
 
   return [err];
 };
